@@ -1,0 +1,65 @@
+programa ::= funciones* "principal" "(" ")" "{" sentencias* "}"
+
+funciones ::= tipo "#" identificador "(" parametros ")" "{" sentencias* "}"
+
+parametros ::= parametro ("," parametro)* | ε
+
+parametro ::= tipo "#" identificador
+
+tipo ::= "entero" | "decimal" | "booleano" | "caracter" | "cadena"
+
+sentencia ::= declaracion ";" | asignacion ";" | expresion ";" | sentencia_si | sentencia_mientras | sentencia_para | "retornar" expresion ";" | "romper" ";"
+
+declaracion ::= tipo "#" identificador
+
+asignacion ::= identificador "=" expresion
+
+expresion ::= expresion_logica
+
+expresion_logica ::= termino_logico ("|" termino_logico)*
+
+termino_logico ::= factor_logico ("&" factor_logico)*
+
+factor_logico ::= "!" primario_logico | primario_logico
+
+primario_logico ::= literal_booleano | "(" expresion_logica ")" | expresion_relacional
+
+expresion_relacional ::= expresion_aritmetica ("<" | "<=" | ">" | ">=" | "==" | "!=") expresion_aritmetica
+
+expresion_aritmetica ::= expresion_multiplicativa ("+" | "-") expresion_aritmetica | expresion_multiplicativa
+
+expresion_multiplicativa ::= expresion_unaria ("*" | "/" | "%" | "^") expresion_multiplicativa | expresion_unaria
+
+expresion_unaria ::= "-" primario_aritmetico | "++" identificador | "--" identificador | primario_aritmetico
+
+primario_aritmetico ::= identificador | literal | llamada_funcion | "(" expresion ")"
+
+llamada_funcion ::= identificador "(" argumentos ")"
+
+argumentos ::= expresion ("," expresion)* | ε
+
+sentencia_si ::= "si" "(" expresion ")" "{" sentencias* "}" ("sino" "{" sentencias* "}")?
+
+sentencia_mientras ::= "mientras" "(" expresion ")" "{" sentencias* "}"
+
+sentencia_para ::= "paraRango" "(" expresion? ";" expresion ";" expresion? ")" "{" sentencias* "}"
+
+literal_booleano ::= "verdadero" | "falso"
+
+identificador ::= letra (letra | digito)*
+
+literal ::= literal_entero | literal_decimal | literal_caracter | literal_cadena
+
+literal_entero ::= digito+
+
+literal_decimal ::= digito+ "." digito* | "." digito+
+
+literal_caracter ::= "'" caracter "'"
+
+literal_cadena ::= """ caracter* """
+
+letra ::= [A-Za-z]
+
+digito ::= [0-9]
+
+caracter ::= [cualquier caracter válido]
