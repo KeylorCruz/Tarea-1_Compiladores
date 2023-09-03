@@ -1,0 +1,87 @@
+program --> function-declaration | statement
+
+block --> '{' statement-list '}'
+
+statement-list --> statement | statement statement-list
+
+statement --> block | variable-declaration ';' | assignment ';' | function-call ';' | return-statement ';' | if-statement | while-statement | do-while-statement | for-statement
+
+variable-declaration --> type identifier | type identifier '=' expression | type identifier '[' integer-constant ']' | type identifier '[' integer-constant ']' '=' array-initialization
+
+assignment --> location '=' expression
+
+location --> identifier | identifier '[' expression ']'
+
+expression --> conjunction | conjunction '||' expression
+
+conjunction --> equality | equality '&&' conjunction
+
+equality --> relation | relation '==' equality | relation '!=' equality
+
+relation --> addition | addition '<' relation | addition '<=' relation | addition '>' relation | addition '>=' relation
+
+addition --> multiplication | multiplication '+' addition | multiplication '-' addition
+
+multiplication --> unary | unary '*' multiplication | unary '/' multiplication | unary '%' multiplication
+
+unary --> '-' unary | '!' unary | primary
+
+primary --> integer-literal | string-literal | true | false | identifier | '(' expression ')' | array-access
+
+array-access --> identifier '[' expression ']'
+
+function-call --> identifier '(' argument-list ')'
+
+argument-list --> expression | expression ',' argument-list
+
+return-statement --> 'return' expression ';'
+
+if-statement --> 'if' '(' expression ')' statement | 'if' '(' expression ')' statement 'else' statement
+
+while-statement --> 'while' '(' expression ')' statement
+
+do-while-statement --> 'do' statement 'while' '(' expression ')' ';'
+
+for-statement --> 'for' '(' for-init ';' for-condition ';' for-update ')' statement
+
+for-init --> expression | variable-declaration
+
+for-condition --> expression
+
+for-update --> expression
+
+function-declaration --> type identifier '(' parameter-list ')' block
+
+parameter-list --> parameter | parameter ',' parameter-list
+
+parameter --> type identifier
+
+array-initialization --> type identifier '[' integer-constant ']' '=' '{' expression-list '}'
+
+expression-list --> expression | expression ',' expression-list
+
+comment --> line-comment | block-comment
+
+line-comment --> '@' text '\n'
+
+block-comment --> '/*' text '*/'
+
+type --> 'int' | 'boolean' | 'string' | 'char' | 'float'
+
+identifier --> letter (letter | digit | '_')*
+
+integer-literal --> digit+
+
+string-literal --> '"' character* '"'
+
+character --> letter | digit | symbol
+
+letter --> 'a' ... 'z' | 'A' ... 'Z'
+
+digit --> '0' ... '9'
+
+symbol --> ' ' | '!' | '"' | '#' | '$' | '%' | '&' | '\'' | '(' | ')' | '*' | '+' | ',' | '-' | '.' | '/' | ':' | ';' | '<' | '=' | '>' | '?' | '@' | '[' | '\\' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~'
+
+text --> (letter | digit | symbol | ' ')*
+
+main --> block
