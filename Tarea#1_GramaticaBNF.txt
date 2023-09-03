@@ -1,0 +1,110 @@
+// Terminales
+
+type = 'int' | 'boolean' | 'string' | 'char' | 'float'
+
+letter = [A-Za-z]
+
+char = .
+
+string = .*
+
+digit = [0-9]
+
+true = 'TRUE'
+
+false = 'FALSE'
+
+break = 'BREAK'
+
+
+
+
+// Produccion
+
+main ::= global-variable-declaration | function-declaration | statement
+
+block ::= '{' statement-list '}'
+
+identifier ::= letter (letter | digit | '_')*
+
+integer-literal ::= digit+
+
+string-literal ::= '"' string '"'
+
+statement-list ::= statement | statement statement-list
+
+global-variable-declaration ::= 'global' variable-declaration ';' | 'global' type identifier '=' expression ';'
+
+statement ::= block | variable-declaration ';' | assignment ';' | function-call ';' | return-statement ';' | if-statement ';' | while-statement ';' |  for_range_loop ';' | read-statement ';' | write-statement ';'
+
+variable-declaration ::= type "#" identifier | type "#" identifier '=' expression | type "#" identifier '[' integer-constant ']' | type "#" identifier '[' integer-constant ']' '=' array-initialization
+
+assignment ::= location '=' expression
+
+location ::= identifier | identifier '[' expression ']'
+
+expression ::= conjunction | conjunction '||' expression
+
+conjunction ::= equality | equality '&&' conjunction
+
+equality ::= relation | relation '==' equality | relation '!=' equality
+
+relation ::= addition | addition '<' relation | addition '<=' relation | addition '>' relation | addition '>=' relation
+
+addition ::= multiplication | multiplication '+' addition | multiplication '-' addition
+
+multiplication ::= unary | unary '*' multiplication | unary '/' multiplication | unary '/_' multiplication | unary '%' multiplication | unary '^' multiplication
+
+unary ::= '-' unary | '!' unary | primary
+
+primary ::= integer-literal | string-literal | true | false | identifier | '(' expression ')' | array-access | unary-expression
+
+array-access ::= identifier '[' expression ']'
+
+function-call ::= identifier '(' argument-list ')'
+
+argument-list ::= expression | expression ',' argument-list
+
+return-statement ::= 'return' expression ';'
+
+read-statement ::= 'read' identifier | 'read' identifier 'as' type
+
+write-statement ::= 'write' expression
+
+if-statement ::= 'if' '(' expression ')' statement | 'if' '(' expression ')' statement 'else' statement
+
+switch-statement  ::= 'switch' identifier "{" case_list "}"
+
+case_list  ::= case | case case_list
+
+case  ::= 'case' identifier ':' statement
+
+while-statement ::= 'while' '(' expression ')' statement | 'while' '(' expression ')' statement 'else' statement
+
+for_range_loop ::= "forRange" "(" [start_expression ";"] end_expression [";" step_expression] ")" "{" statement "}"
+
+start_expression  ::= expression | variable-declaration | unary-expression
+
+end_expression  ::=  expression
+
+step_expression  ::= expression | unary-expression
+
+function-declaration ::= type '#' identifier '(' parameter-list ')' block
+
+parameter-list ::= parameter | parameter ',' parameter-list
+
+parameter ::= type '#' identifier
+
+array-initialization ::= type identifier '[' integer-constant ']' '=' '{' expression-list '}'
+
+expression-list ::= expression | expression ',' expression-list
+
+unary-expression ::= unary-operator primary | primary
+
+unary-operator ::= '-' | '++' | '--'
+
+comment ::= line-comment | block-comment
+
+line-comment ::= '//' text '\n'
+
+block-comment ::= '/*' text '*/'
